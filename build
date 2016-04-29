@@ -1,0 +1,7 @@
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+for d in */ ; do
+    cd $DIR/$d
+    docker build -t xfrocks/docker-xenforo:"${d%?}" .
+done

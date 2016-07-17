@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker push xfrocks/docker-xenforo:php-apache
+docker push xfrocks/docker-xenforo:php-cli

@@ -19,3 +19,5 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     	mysqli \
     && pecl install imagick \
     && docker-php-ext-enable imagick
+
+RUN a2enmod rewrite

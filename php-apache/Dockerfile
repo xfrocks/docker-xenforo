@@ -1,4 +1,4 @@
-FROM php:apache
+FROM php:7.1.0RC3-apache
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
         libfreetype6-dev \
@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         libmagickwand-6.q16-dev \
         libmcrypt-dev \
         libpng12-dev \
+        libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \

@@ -3,8 +3,9 @@ FROM php:7.0.11-fpm-alpine
 ENV PHPREDIS_VERSION 3.0.0
 
 RUN apk add --update freetype-dev libjpeg-turbo-dev libpng-dev libwebp-dev \
-		autoconf g++ imagemagick-dev libtool make \
 		cyrus-sasl-dev libmemcached-dev zlib-dev \
+		libmcrypt-dev \
+		autoconf g++ imagemagick-dev libtool make \
 	&& docker-php-ext-configure gd \
 		--with-freetype-dir=/usr/include/ \
 		--with-jpeg-dir=/usr/include/ \

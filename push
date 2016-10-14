@@ -2,3 +2,4 @@
 
 docker push xfrocks/docker-xenforo:php-apache
 docker push xfrocks/docker-xenforo:php-cli
+docker push xfrocks/docker-xenforo:php-fpm-alpine

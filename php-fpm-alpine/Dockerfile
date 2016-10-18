@@ -33,6 +33,7 @@ RUN apk add --update freetype-dev libjpeg-turbo-dev libpng-dev libwebp-dev \
 	&& docker-php-ext-install mbstring \
 	&& docker-php-ext-install mcrypt \
 	&& docker-php-ext-install mysqli \
+	&& docker-php-ext-install pcntl \
 	&& docker-php-ext-install simplexml \
 	&& docker-php-ext-install xml \
 	&& docker-php-ext-install zip \

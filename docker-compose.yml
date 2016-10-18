@@ -11,7 +11,8 @@ services:
       - .:/var/www/html/
 
   php-cli:
-    image: xfrocks/docker-xenforo:php-cli
+    image: xfrocks/docker-xenforo:php-apache
+    entrypoint: php
     links:
       - php-apache:php-apache
       - mysqld:mysqld

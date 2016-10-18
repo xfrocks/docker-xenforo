@@ -16,6 +16,7 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
         gd \
         mcrypt \
         mysqli \
+        pcntl \
     && pecl install imagick \
     && docker-php-ext-enable imagick
 

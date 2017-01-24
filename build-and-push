@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+TESTS_DIR="$DIR/tests"
+
+VERSION="7.1.0"
+EXT_INSTALL="exif gd mcrypt memcached mysqli opcache pcntl zip"
+PECL_INSTALL="imagick redis"
+
+for d in */ ; do
+	cd "$DIR/$d"
+	if [ -f Dockerfile ]; then
+		export TAG="xfrocks/docker-xenforo:${d%?}"
+		export TAG_WITH_VERSION="$TAG-$VERSION"
+
+		docker build \
+			--build-arg DOCKER_XENFORO_PHP_EXT_INSTALL="$EXT_INSTALL" \
+			--build-arg DOCKER_XENFORO_PHP_PECL_INSTALL="$PECL_INSTALL" \
+			-t "$TAG" \
+			-t "$TAG_WITH_VERSION" \
+			.
+
+		eval "$TESTS_DIR/run.sh"
+
+		docker push "$TAG"
+		docker push "$TAG_WITH_VERSION"
+	fi
+done
+

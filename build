@@ -1,9 +1,0 @@
-#!/bin/bash
-
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-for d in */ ; do
-    cd $DIR/$d
-    if [ -f Dockerfile ]; then
-    	docker build -t xfrocks/docker-xenforo:"${d%?}" .
-    fi
-done

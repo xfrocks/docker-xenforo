@@ -77,8 +77,8 @@ done
 
 
 
+echo 'Cleaning up...'
 {
-    echo 'Cleaning up...'
     docker stop "$CONTAINER_ID_MYSQL" "$CONTAINER_ID_REDIS" "$CONTAINER_ID_TARGET"
     docker network rm "$NETWORK" || true
 } &> /dev/null

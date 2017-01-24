@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -13,18 +13,25 @@ NETWORK="docker-xenforo-test"
 
 CONTAINER_ID_MYSQL="$( docker ps -qf "name=$NETWORK-mysql" )"
 if [ -z "$CONTAINER_ID_MYSQL" ]; then
-    docker run --network "$NETWORK" --name "$NETWORK-mysql" \
-        -e MYSQL_RANDOM_ROOT_PASSWORD=1 \
-        -e MYSQL_USER=user \
-        -e MYSQL_PASSWORD=password \
-        -e MYSQL_DATABASE=db \
-        -d mysql || docker restart "$NETWORK-mysql"
+    MYSQL_ATTEMPT="$(
+        docker run --network "$NETWORK" \
+            --name "$NETWORK-mysql" \
+            -e MYSQL_RANDOM_ROOT_PASSWORD=1 \
+            -e MYSQL_USER=user \
+            -e MYSQL_PASSWORD=password \
+            -e MYSQL_DATABASE=db \
+            -d mysql 2>&1 \
+        || docker restart "$NETWORK-mysql" 2>&1 \
+    )"
+    echo 'Waiting for mysql...'
     sleep 5
+
     CONTAINER_ID_MYSQL="$( docker ps -qf name="$NETWORK-mysql" )"
-fi
-if [ -z "$CONTAINER_ID_MYSQL" ]; then
-    echo 'Cannot start mysql container'
-    exit 1
+    if [ -z "$CONTAINER_ID_MYSQL" ]; then
+        echo "$MYSQL_ATTEMPT"
+        echo 'Cannot start mysql container'
+        exit 1
+    fi
 fi
 CONTAINER_HOSTNAME_MYSQL="$( docker inspect --format '{{.Config.Hostname}}' "$CONTAINER_ID_MYSQL" )"
 
@@ -32,12 +39,19 @@ CONTAINER_HOSTNAME_MYSQL="$( docker inspect --format '{{.Config.Hostname}}' "$CO
 
 CONTAINER_ID_REDIS="$( docker ps -qf "name=$NETWORK-redis" )"
 if [ -z "$CONTAINER_ID_REDIS" ]; then
-    docker run --network "$NETWORK" --name "$NETWORK-redis" -d redis || docker restart "$NETWORK-redis"
+    REDIS_ATTEMPT="$(
+        docker run --network "$NETWORK" \
+            --name "$NETWORK-redis" \
+            -d redis 2>&1 \
+        || docker restart "$NETWORK-redis" 2>&1
+    )"
+
     CONTAINER_ID_REDIS="$( docker ps -qf name="$NETWORK-redis" )"
-fi
-if [ -z "$CONTAINER_ID_REDIS" ]; then
-    echo 'Cannot start redis container'
-    exit 1
+    if [ -z "$CONTAINER_ID_REDIS" ]; then
+        echo "$REDIS_ATTEMPT"
+        echo 'Cannot start redis container'
+        exit 1
+    fi
 fi
 CONTAINER_HOSTNAME_REDIS="$( docker inspect --format '{{.Config.Hostname}}' "$CONTAINER_ID_REDIS" )"
 
@@ -63,6 +77,9 @@ done
 
 
 
-docker stop "$CONTAINER_ID_MYSQL" "$CONTAINER_ID_REDIS" "$CONTAINER_ID_TARGET"
-docker network rm "$NETWORK" || true
+{
+    echo 'Cleaning up...'
+    docker stop "$CONTAINER_ID_MYSQL" "$CONTAINER_ID_REDIS" "$CONTAINER_ID_TARGET"
+    docker network rm "$NETWORK" || true
+} &> /dev/null
 echo 'All done!'

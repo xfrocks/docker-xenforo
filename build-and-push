@@ -12,7 +12,7 @@ PECL_INSTALL="imagick redis"
 for d in */ ; do
 	cd "$DIR/$d"
 	if [ -f Dockerfile ]; then
-		export TAG="xfrocks/docker-xenforo:${d%?}"
+		export TAG="xfrocks/xenforo:${d%?}"
 		export TAG_WITH_VERSION="$TAG-$VERSION"
 
 		docker build \

@@ -33,6 +33,10 @@ docker-php-ext-configure gd \
 # for memcached
 git clone --branch php7 https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ 
 
+# for improved ASLR and optimizations
+# https://github.com/docker-library/php/issues/105#issuecomment-278114879
+export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS"
+
 docker-php-source extract
 eval "docker-php-ext-install $DOCKER_XENFORO_PHP_EXT_INSTALL"
 eval "pecl install $DOCKER_XENFORO_PHP_PECL_INSTALL"

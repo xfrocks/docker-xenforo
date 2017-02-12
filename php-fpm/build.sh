@@ -20,7 +20,6 @@ TMP_PACKAGES="$TMP_PACKAGES libtool"
 RUN_PACKAGES="$RUN_PACKAGES libwebp-dev"        # gd
 RUN_PACKAGES="$RUN_PACKAGES libxml2-dev"        # xml
 TMP_PACKAGES="$TMP_PACKAGES make"
-RUN_PACKAGES="$RUN_PACKAGES zlib-dev"           # memcached
 eval "apk add --update --no-cache $TMP_PACKAGES $RUN_PACKAGES"
 
 # for gd

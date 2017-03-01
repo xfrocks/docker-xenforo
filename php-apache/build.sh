@@ -43,4 +43,7 @@ rm -rf /tmp/* /var/lib/apt/lists/*
 eval apt-mark manual "$RUN_PACKAGES"
 eval "apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $TMP_PACKAGES"
 
-a2enmod rewrite
+# No longer enable mod_rewrite for apache images
+# It's much more simple to just use `FallbackResource /index.php` for XenForo
+# and maybe `FallbackResource /api/index.php` for [bd] API
+# a2enmod rewrite

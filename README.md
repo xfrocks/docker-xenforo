@@ -11,6 +11,7 @@ Installed extensions (other than the default ones):
  * opcache
  * pcntl
  * redis
+ * xdebug (not enabled)
  * zip
 
 List of all extensions (according to `php -m`):

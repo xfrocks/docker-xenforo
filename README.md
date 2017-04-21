@@ -11,7 +11,7 @@ Installed extensions (other than the default ones):
  * opcache
  * pcntl
  * redis
- * tideways (with `auto_prepend_library=0`)
+ * tideways (`auto_start=0` `auto_prepend_library=0`)
  * xdebug (not enabled)
  * zip
 

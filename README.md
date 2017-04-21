@@ -11,6 +11,7 @@ Installed extensions (other than the default ones):
  * opcache
  * pcntl
  * redis
+ * tideways (with `auto_prepend_library=0`)
  * xdebug (not enabled)
  * zip
 
@@ -50,6 +51,7 @@ SimpleXML
 SPL
 sqlite3
 standard
+tideways
 tokenizer
 xml
 xmlreader

@@ -18,15 +18,34 @@ TMP_PACKAGES="$TMP_PACKAGES git"
 RUN_PACKAGES="$RUN_PACKAGES zlib1g-dev"              # memcached
 eval "apt-get update && apt-get install --no-install-recommends -y $TMP_PACKAGES $RUN_PACKAGES"
 
-# for gd
-docker-php-ext-configure gd \
-    --with-freetype-dir=/usr/include/ \
-    --with-jpeg-dir=/usr/include/ \
-    --with-png-dir=/usr/include/ \
-    --with-webp-dir=/usr/include/
+case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in 
+  *gd*)
+    echo 'Preparing module: gd...'
+    docker-php-ext-configure gd \
+        --with-freetype-dir=/usr/include/ \
+        --with-jpeg-dir=/usr/include/ \
+        --with-png-dir=/usr/include/ \
+        --with-webp-dir=/usr/include/
+    ;;
+esac
 
-# for memcached
-git clone --branch php7 https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ 
+case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in 
+  *memcached*)
+    echo 'Preparing module: memcached...'
+    git clone --branch php7 https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/
+    ;;
+esac
+
+case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
+  *tideways*)
+    echo 'Preparing module: tideways...'
+
+    git clone https://github.com/tideways/php-profiler-extension /usr/src/php/ext/tideways/
+    docker-php-ext-configure tideways
+
+    echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/zzz-tideways.ini
+    ;;
+esac
 
 # for improved ASLR and optimizations
 # https://github.com/docker-library/php/issues/105#issuecomment-278114879

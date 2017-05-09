@@ -5,43 +5,56 @@ set -e
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TESTS_DIR="$DIR/tests"
 
-VERSION="7.1.4"
 EXT_INSTALL="exif gd mcrypt memcached mysqli opcache pcntl tideways zip"
 PECL_INSTALL="imagick redis"
 
 for d in */ ; do
-	cd "$DIR/$d"
-	if [ -f Dockerfile ]; then
-		export TAG="xfrocks/xenforo:${d%?}"
-		export TAG_WITH_VERSION="$TAG-$VERSION"
+    cd "$DIR/$d"
+    if [ -f Dockerfile ]; then
+        IS_PHP=0
+        if [[ $d == php* ]]; then
+            IS_PHP=1
+        fi
+        VERSION="$( head -n 1 "VERSION" )"
+        TAG="xfrocks/xenforo:${d%?}"
+        TAG_WITH_VERSION="$TAG-$VERSION"
 
-		docker build \
-			--build-arg DOCKER_XENFORO_PHP_EXT_INSTALL="$EXT_INSTALL" \
-			--build-arg DOCKER_XENFORO_PHP_PECL_INSTALL="$PECL_INSTALL" \
-			-t "$TAG" \
-			-t "$TAG_WITH_VERSION" \
-			.
+        docker build \
+            --build-arg DOCKER_XENFORO_PHP_EXT_INSTALL="$EXT_INSTALL" \
+            --build-arg DOCKER_XENFORO_PHP_PECL_INSTALL="$PECL_INSTALL" \
+            -t "$TAG" \
+            -t "$TAG_WITH_VERSION" \
+            .
 
-		eval "$TESTS_DIR/run.sh"
+        if [ "$IS_PHP" -gt 0 ]; then
+            eval "$TESTS_DIR/run.sh"
+        fi
 
-		docker push "$TAG"
-		docker push "$TAG_WITH_VERSION"
+        docker push "$TAG"
+        docker push "$TAG_WITH_VERSION"
 
-		export TAG_DEBUG="$TAG_WITH_VERSION-debug"
-		export DIR_DEBUG="xfrocks-xenforo-$VERSION"
-		cd /tmp
-		if [ -d "$DIR_DEBUG" ]; then
-			rm -rf "$DIR_DEBUG"
-		fi
-		mkdir "$DIR_DEBUG"
-		cd "$DIR_DEBUG"
-		echo "FROM $TAG_WITH_VERSION" > Dockerfile
-		echo '' >> Dockerfile
-		echo 'RUN docker-php-ext-enable xdebug \' >> Dockerfile
-		echo '	&& echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \' >> Dockerfile
-		echo '	&& echo "xdebug.remote_connect_back=on" >> /usr/local/etc/php/conf.d/xdebug.ini' >> Dockerfile
-		docker build -t "$TAG_DEBUG" .
-		docker push "$TAG_DEBUG"
-	fi
+        if [ "$IS_PHP" -gt 0 ]; then
+            TAG_DEBUG="$TAG_WITH_VERSION-debug"
+            DIR_DEBUG="xfrocks-xenforo-$VERSION"
+            
+            cd /tmp
+            if [ -d "$DIR_DEBUG" ]; then
+                rm -rf "$DIR_DEBUG"
+            fi
+            mkdir "$DIR_DEBUG"
+            cd "$DIR_DEBUG"
+
+            { \
+                echo "FROM $TAG_WITH_VERSION"; \
+                echo ''; \
+                echo 'RUN docker-php-ext-enable xdebug \'; \
+                echo '  && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \'; \
+                echo '  && echo "xdebug.remote_connect_back=on" >> /usr/local/etc/php/conf.d/xdebug.ini'; \
+            } > Dockerfile
+
+            docker build -t "$TAG_DEBUG" .
+            docker push "$TAG_DEBUG"
+        fi
+    fi
 done
 

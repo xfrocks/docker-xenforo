@@ -27,7 +27,7 @@ for d in */ ; do
             .
 
         if [ "$IS_PHP" -gt 0 ]; then
-            eval "$TESTS_DIR/run.sh"
+            eval "IMAGE_TAG_FOR_TESTING=$TAG_WITH_VERSION $TESTS_DIR/run.sh"
         fi
 
         docker push "$TAG"

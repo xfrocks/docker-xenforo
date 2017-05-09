@@ -62,7 +62,7 @@ CONTAINER_ID_TARGET="$( docker run \
     -v "$DIR:/tests/:ro" \
     -e MYSQL="$CONTAINER_HOSTNAME_MYSQL" \
     -e REDIS="$CONTAINER_HOSTNAME_REDIS" \
-    -d "$TAG"
+    -d "$IMAGE_TAG_FOR_TESTING"
 )"
 
 

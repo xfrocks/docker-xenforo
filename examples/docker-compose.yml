@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+  src:
+    image: alpine
+    command: ["uptime"]
+    volumes:
+      - ./src/:/var/www/html/
+
+  php-apache:
+    image: xfrocks/xenforo:php-apache
+    environment:
+      - VIRTUAL_HOST=apache.local.xfrocks.com
+    volumes_from:
+      - src
+
+  php-fpm:
+    image: xfrocks/xenforo:php-fpm
+    volumes_from:
+      - src
+
+  nginx:
+    image: xfrocks/xenforo:nginx
+    environment:
+      - NGINX_ACCESS_LOG_FORMAT=timed
+      - NGINX_FAST_CGI_PASS=php-fpm:9000
+      - VIRTUAL_HOST=nginx.local.xfrocks.com
+    links:
+      - php-fpm
+    volumes_from:
+      - src
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro

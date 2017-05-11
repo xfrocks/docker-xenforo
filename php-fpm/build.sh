@@ -6,19 +6,23 @@ RUN_PACKAGES=""
 TMP_PACKAGES=""
 TMP_PACKAGES="$TMP_PACKAGES autoconf"
 RUN_PACKAGES="$RUN_PACKAGES cyrus-sasl-dev"     # memcached
-RUN_PACKAGES="$RUN_PACKAGES freetype-dev"       # gd
+TMP_PACKAGES="$TMP_PACKAGES freetype-dev"       # gd
 TMP_PACKAGES="$TMP_PACKAGES g++"
+RUN_PACKAGES="$RUN_PACKAGES gd"                 # gd
+TMP_PACKAGES="$TMP_PACKAGES gd-dev"             # gd
 TMP_PACKAGES="$TMP_PACKAGES git"
-RUN_PACKAGES="$RUN_PACKAGES imagemagick"        # imagick
-TMP_PACKAGES="$TMP_PACKAGES imagemagick-dev"    # imagick
-RUN_PACKAGES="$RUN_PACKAGES libjpeg-turbo-dev"  # gd
+TMP_PACKAGES="$TMP_PACKAGES libjpeg-turbo-dev"  # gd
+RUN_PACKAGES="$RUN_PACKAGES libltdl"            # gd?
 RUN_PACKAGES="$RUN_PACKAGES libmcrypt-dev"      # mcrypt
 RUN_PACKAGES="$RUN_PACKAGES libmemcached"       # memcached
 TMP_PACKAGES="$TMP_PACKAGES libmemcached-dev"   # memcached
-RUN_PACKAGES="$RUN_PACKAGES libpng-dev"         # gd
+TMP_PACKAGES="$TMP_PACKAGES libpng-dev"         # gd
 TMP_PACKAGES="$TMP_PACKAGES libtool"
-RUN_PACKAGES="$RUN_PACKAGES libwebp-dev"        # gd
+RUN_PACKAGES="$RUN_PACKAGES libwebp"            # gd
+TMP_PACKAGES="$TMP_PACKAGES libwebp-dev"        # gd
 RUN_PACKAGES="$RUN_PACKAGES libxml2-dev"        # xml
+RUN_PACKAGES="$RUN_PACKAGES libxpm"             # gd
+TMP_PACKAGES="$TMP_PACKAGES libxpm-dev"         # gd
 TMP_PACKAGES="$TMP_PACKAGES make"
 eval "apk add --update --no-cache $TMP_PACKAGES $RUN_PACKAGES"
 
@@ -26,10 +30,12 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
   *gd*)
     echo 'Preparing module: gd...'
     docker-php-ext-configure gd \
+        --with-gd=/usr/include \
         --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
-        --with-webp-dir=/usr/include/
+        --with-webp-dir=/usr/include/ \
+        --with-xpm-dir=/usr/include
     ;;
 esac
 

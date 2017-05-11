@@ -4,16 +4,18 @@ set -e
 
 RUN_PACKAGES=""
 TMP_PACKAGES=""
-RUN_PACKAGES="$RUN_PACKAGES libfreetype6-dev"        # gd
-RUN_PACKAGES="$RUN_PACKAGES libjpeg62-turbo-dev"     # gd
-RUN_PACKAGES="$RUN_PACKAGES libmagickwand-6.q16-dev" # imagick
+TMP_PACKAGES="$TMP_PACKAGES libfreetype6-dev"        # gd
+RUN_PACKAGES="$RUN_PACKAGES libgd3"                  # gd
+TMP_PACKAGES="$TMP_PACKAGES libgd-dev"               # gd
+TMP_PACKAGES="$TMP_PACKAGES libjpeg62-turbo-dev"     # gd
 RUN_PACKAGES="$RUN_PACKAGES libmcrypt-dev"           # mcrypt
 TMP_PACKAGES="$TMP_PACKAGES libmemcached-dev"        # memcached
 RUN_PACKAGES="$RUN_PACKAGES libmemcached11"          # memcached
 RUN_PACKAGES="$RUN_PACKAGES libmemcachedutil2"       # memcached
-RUN_PACKAGES="$RUN_PACKAGES libpng12-dev"            # gd
+TMP_PACKAGES="$TMP_PACKAGES libpng12-dev"            # gd
 RUN_PACKAGES="$RUN_PACKAGES libssl-dev"
-RUN_PACKAGES="$RUN_PACKAGES libwebp-dev"             # gd
+RUN_PACKAGES="$RUN_PACKAGES libxpm4"                 # gd
+TMP_PACKAGES="$TMP_PACKAGES libxpm-dev"              # gd
 TMP_PACKAGES="$TMP_PACKAGES git"
 RUN_PACKAGES="$RUN_PACKAGES zlib1g-dev"              # memcached
 eval "apt-get update && apt-get install --no-install-recommends -y $TMP_PACKAGES $RUN_PACKAGES"
@@ -22,10 +24,11 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
   *gd*)
     echo 'Preparing module: gd...'
     docker-php-ext-configure gd \
+        --with-gd=/usr/include \
         --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
-        --with-webp-dir=/usr/include/
+        --with-xpm-dir=/usr/include
     ;;
 esac
 

@@ -26,7 +26,7 @@ if [ ! -z "$_WORKER_PROCESSES" ]; then
 fi
 
 if [ ! -z "$_ACCESS_LOG_FORMAT" ]; then
-    NGINX_CONF="$( echo "$NGINX_CONF" | sed -e "s/^\(\s*access_log.*\) off;$/\1 $_ACCESS_LOG_FORMAT;/" )"
+    NGINX_CONF="$( echo "$NGINX_CONF" | sed -e "s|^\(\s*access_log.*\) off;$|\1 /var/log/nginx/access.log $_ACCESS_LOG_FORMAT;|" )"
     echo "$NGINX_CONF" | grep 'access_log' | xargs
 fi
 

@@ -39,7 +39,7 @@ fi
 if [ ! -z "$_FAST_CGI_PASS" ]; then
     PHP_FPM_PARAMS="$( cat "$PHP_FPM_PARAMS_TEMPLATE_PATH" )"
 
-    PHP_FPM_PARAMS="$( echo "$PHP_FPM_PARAMS" | sed -e "s/^\(\s*fastcgi_pass.*\) 127.0.0.1:9000;$/\1 $_FAST_CGI_PASS;/" )"
+    PHP_FPM_PARAMS="$( echo "$PHP_FPM_PARAMS" | sed -e "s|^\(\s*fastcgi_pass.*\) 127.0.0.1:9000;$|\1 $_FAST_CGI_PASS;|" )"
     echo "$PHP_FPM_PARAMS" | grep 'fastcgi_pass' | xargs
 
     echo "$PHP_FPM_PARAMS" > "$PHP_FPM_PARAMS_PATH"

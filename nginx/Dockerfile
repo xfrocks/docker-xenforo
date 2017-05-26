@@ -1,4 +1,4 @@
-FROM nginx:1.13.0-alpine
+FROM nginx:1.13.0-alpine-perl
 
 COPY templates /opt/templates
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh

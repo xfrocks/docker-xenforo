@@ -4,7 +4,6 @@ Docker containers to develop and run XenForo.
 Installed extensions (other than the default ones):
  * exif
  * gd
- * imagick
  * mcrypt
  * memcached
  * mysqli

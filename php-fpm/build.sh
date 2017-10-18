@@ -53,6 +53,7 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
     git clone https://github.com/tideways/php-profiler-extension /usr/src/php/ext/tideways/
     docker-php-ext-configure tideways
 
+    echo 'tideways.auto_start=0' >> /usr/local/etc/php/conf.d/zzz-tideways.ini
     echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/zzz-tideways.ini
     ;;
 esac

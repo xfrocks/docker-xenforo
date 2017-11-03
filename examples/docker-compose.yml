@@ -30,7 +30,24 @@ services:
     volumes_from:
       - src
 
-  nginx-proxy:
+  caddy:
+    image: xfrocks/xenforo:caddy
+    environment:
+      - CADDY_PHP_FASTCGI_ENDPOINT=php-fpm:9000
+      - CLOUDFLARE_API_KEY
+      - CLOUDFLARE_EMAIL
+      - VIRTUAL_HOST=caddy.local.xfrocks.com
+    links:
+      - php-fpm
+      - proxy
+    volumes:
+      - ./.data/caddy:/root/.caddy
+    volumes_from:
+      - src
+    ports:
+      - "443:443"
+
+  proxy:
     image: jwilder/nginx-proxy
     ports:
       - "80:80"

@@ -32,29 +32,6 @@ for d in */ ; do
 
         docker push "$TAG"
         docker push "$TAG_WITH_VERSION"
-
-        if [ "$IS_PHP" -gt 0 ]; then
-            TAG_DEBUG="$TAG_WITH_VERSION-debug"
-            DIR_DEBUG="xfrocks-xenforo-$VERSION"
-            
-            cd /tmp
-            if [ -d "$DIR_DEBUG" ]; then
-                rm -rf "$DIR_DEBUG"
-            fi
-            mkdir "$DIR_DEBUG"
-            cd "$DIR_DEBUG"
-
-            { \
-                echo "FROM $TAG_WITH_VERSION"; \
-                echo ''; \
-                echo 'RUN docker-php-ext-enable xdebug \'; \
-                echo '  && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \'; \
-                echo '  && echo "xdebug.remote_connect_back=on" >> /usr/local/etc/php/conf.d/xdebug.ini'; \
-            } > Dockerfile
-
-            docker build -t "$TAG_DEBUG" .
-            docker push "$TAG_DEBUG"
-        fi
     fi
 done
 

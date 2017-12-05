@@ -5,7 +5,7 @@ set -e
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TESTS_DIR="$DIR/tests"
 
-EXT_INSTALL="exif gd mcrypt memcached mysqli opcache pcntl tideways zip"
+EXT_INSTALL="exif gd memcached mysqli opcache pcntl tideways zip"
 PECL_INSTALL="redis"
 
 for d in */ ; do

@@ -4,14 +4,12 @@ Docker containers to develop and run XenForo.
 Installed extensions (other than the default ones):
  * exif
  * gd
- * mcrypt
  * memcached
  * mysqli
  * opcache
  * pcntl
  * redis
  * tideways (`auto_start=0` `auto_prepend_library=0`)
- * xdebug (not enabled)
  * zip
 
 List of all extensions (according to `php -m`):
@@ -27,11 +25,9 @@ ftp
 gd
 hash
 iconv
-imagick
 json
 libxml
 mbstring
-mcrypt
 memcached
 mysqli
 mysqlnd

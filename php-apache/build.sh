@@ -10,14 +10,12 @@ TMP_PACKAGES="$TMP_PACKAGES libgd-dev"               # gd
 TMP_PACKAGES="$TMP_PACKAGES libjpeg62-turbo-dev"     # gd
 RUN_PACKAGES="$RUN_PACKAGES libmcrypt-dev"           # mcrypt
 TMP_PACKAGES="$TMP_PACKAGES libmemcached-dev"        # memcached
-RUN_PACKAGES="$RUN_PACKAGES libmemcached11"          # memcached
 RUN_PACKAGES="$RUN_PACKAGES libmemcachedutil2"       # memcached
 TMP_PACKAGES="$TMP_PACKAGES libpng-dev"              # gd
 RUN_PACKAGES="$RUN_PACKAGES libssl-dev"
 RUN_PACKAGES="$RUN_PACKAGES libxpm4"                 # gd
 TMP_PACKAGES="$TMP_PACKAGES libxpm-dev"              # gd
 TMP_PACKAGES="$TMP_PACKAGES git"
-RUN_PACKAGES="$RUN_PACKAGES zlib1g-dev"              # memcached
 eval "apt-get update && apt-get install --no-install-recommends -y $TMP_PACKAGES $RUN_PACKAGES"
 
 case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in 
@@ -29,13 +27,6 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
         --with-jpeg-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
         --with-xpm-dir=/usr/include
-    ;;
-esac
-
-case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in 
-  *memcached*)
-    echo 'Preparing module: memcached...'
-    git clone --branch php7 https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/
     ;;
 esac
 
@@ -62,6 +53,7 @@ eval "docker-php-ext-enable $DOCKER_XENFORO_PHP_PECL_INSTALL"
 docker-php-source delete
 
 # clean up
+pecl clear-cache
 rm -rf /tmp/* /var/lib/apt/lists/*
 eval apt-mark manual "$RUN_PACKAGES"
 eval "apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $TMP_PACKAGES"

@@ -39,13 +39,6 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
     ;;
 esac
 
-case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in 
-  *memcached*)
-    echo 'Preparing module: memcached...'
-    git clone --branch php7 https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/
-    ;;
-esac
-
 case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
   *tideways*)
     echo 'Preparing module: tideways...'
@@ -69,5 +62,6 @@ eval "docker-php-ext-enable $DOCKER_XENFORO_PHP_PECL_INSTALL"
 docker-php-source delete
 
 # clean up
+pecl clear-cache
 eval "apk del $TMP_PACKAGES"
 rm -rf /tmp/* /var/cache/apk/*

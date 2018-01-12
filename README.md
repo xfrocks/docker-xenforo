@@ -2,6 +2,7 @@
 Docker containers to develop and run XenForo.
 
 Installed extensions (other than the default ones):
+ * apcu
  * exif
  * gd
  * memcached
@@ -13,6 +14,7 @@ Installed extensions (other than the default ones):
  * zip
 
 List of all extensions (according to `php -m`):
+apcu
 Core
 ctype
 curl

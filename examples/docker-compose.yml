@@ -11,6 +11,8 @@ services:
     image: xfrocks/xenforo:php-apache
     environment:
       - VIRTUAL_HOST=apache.local.xfrocks.com
+    ports:
+      - "4433:443"
     volumes_from:
       - src
 

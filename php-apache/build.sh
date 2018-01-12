@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -50,6 +50,7 @@ docker-php-source extract
 eval "docker-php-ext-install $DOCKER_XENFORO_PHP_EXT_INSTALL"
 eval "pecl install $DOCKER_XENFORO_PHP_PECL_INSTALL"
 eval "docker-php-ext-enable $DOCKER_XENFORO_PHP_PECL_INSTALL"
+/build_apache.sh
 docker-php-source delete
 
 # clean up

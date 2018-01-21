@@ -60,6 +60,7 @@ CONTAINER_HOSTNAME_REDIS="$( docker inspect --format '{{.Config.Hostname}}' "$CO
 CONTAINER_ID_TARGET="$( docker run \
     --network "$NETWORK" \
     -v "$DIR:/tests/:ro" \
+    -e IMAGE_TAG_FOR_TESTING="$IMAGE_TAG_FOR_TESTING" \
     -e MYSQL="$CONTAINER_HOSTNAME_MYSQL" \
     -e REDIS="$CONTAINER_HOSTNAME_REDIS" \
     -d "$IMAGE_TAG_FOR_TESTING"

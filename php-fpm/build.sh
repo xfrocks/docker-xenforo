@@ -5,6 +5,7 @@ set -e
 RUN_PACKAGES=""
 TMP_PACKAGES=""
 TMP_PACKAGES="$TMP_PACKAGES autoconf"
+RUN_PACKAGES="$RUN_PACKAGES bash"
 RUN_PACKAGES="$RUN_PACKAGES cyrus-sasl-dev"     # memcached
 TMP_PACKAGES="$TMP_PACKAGES freetype-dev"       # gd
 TMP_PACKAGES="$TMP_PACKAGES g++"
@@ -39,18 +40,6 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
     ;;
 esac
 
-case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
-  *tideways*)
-    echo 'Preparing module: tideways...'
-
-    git clone https://github.com/tideways/php-profiler-extension /usr/src/php/ext/tideways/
-    docker-php-ext-configure tideways
-
-    echo 'tideways.auto_start=0' >> /usr/local/etc/php/conf.d/zzz-tideways.ini
-    echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/zzz-tideways.ini
-    ;;
-esac
-
 # for improved ASLR and optimizations
 # https://github.com/docker-library/php/issues/105#issuecomment-278114879
 export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS"
@@ -59,6 +48,7 @@ docker-php-source extract
 eval "docker-php-ext-install $DOCKER_XENFORO_PHP_EXT_INSTALL"
 eval "pecl install $DOCKER_XENFORO_PHP_PECL_INSTALL"
 eval "docker-php-ext-enable $DOCKER_XENFORO_PHP_PECL_INSTALL"
+/build_fpm.sh
 docker-php-source delete
 
 # clean up

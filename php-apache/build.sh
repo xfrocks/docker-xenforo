@@ -30,18 +30,6 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
     ;;
 esac
 
-case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
-  *tideways*)
-    echo 'Preparing module: tideways...'
-
-    git clone https://github.com/tideways/php-profiler-extension /usr/src/php/ext/tideways/
-    docker-php-ext-configure tideways
-
-    echo 'tideways.auto_start=0' >> /usr/local/etc/php/conf.d/zzz-tideways.ini
-    echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/zzz-tideways.ini
-    ;;
-esac
-
 # for improved ASLR and optimizations
 # https://github.com/docker-library/php/issues/105#issuecomment-278114879
 export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS"

@@ -3,6 +3,6 @@
 fastcgi / php-fpm.local:9000 php
 
 tls {
-    dns cloudflare
-    max_certs 10
+  dns cloudflare
+  max_certs 3
 }

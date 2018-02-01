@@ -1,23 +1,26 @@
 #!/bin/sh
 
-CADDYFILE_TEMPLATE_PATH='/opt/templates/Caddyfile'
-CADDYFILE_PATH='/etc/Caddyfile'
-
 set -e
+
+_caddyfilePathDefault='/etc/Caddyfile'
+_caddyfilePath=${CADDYFILE_PATH:-"$_caddyfilePathDefault"}
+_phpFastcgiEndpoint="$CADDY_PHP_FASTCGI_ENDPOINT"
+_caddyfileTemplatePath=${CADDYFILE_TEMPLATE_PATH:-'/opt/templates/Caddyfile'}
 
 # if command starts with an option, prepend caddy
 if [ "${1:0:1}" = '-' ]; then
-    set -- /usr/bin/caddy -conf "$CADDYFILE_PATH" "$@"
+  set -- /usr/bin/caddy -conf "$_caddyfilePath" "$@"
 fi
 
-CADDYFILE="$( cat "$CADDYFILE_TEMPLATE_PATH" )"
+if [ "x$_caddyfilePath" = "x$_caddyfilePathDefault" ]; then
+  _caddyfile="$( cat "$_caddyfileTemplatePath" )"
 
-if [ ! -z "$CADDY_PHP_FASTCGI_ENDPOINT" ]; then
-    CADDYFILE="$( echo "$CADDYFILE" | sed -e "s/php-fpm.local:9000/$CADDY_PHP_FASTCGI_ENDPOINT/" )"
-    echo "$CADDYFILE" | grep 'fastcgi' | xargs
+  if [ ! -z "$_phpFastcgiEndpoint" ]; then
+    _caddyfile="$( echo "$_caddyfile" | sed -e "s/php-fpm.local:9000/$_phpFastcgiEndpoint/" )"
+  fi
+
+  echo "$_caddyfile" | tee "$_caddyfilePath" >&2
 fi
 
-echo "$CADDYFILE" > "$CADDYFILE_PATH"
-
-echo "Executing $@..."
+echo "Executing $@..." >&2
 exec "$@"

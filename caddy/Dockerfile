@@ -2,8 +2,8 @@ FROM golang:1.9.3-alpine3.7 as builder
 
 RUN apk add --no-cache git
 
-COPY scripts/build.sh /usr/bin/build.sh
-RUN /bin/sh /usr/bin/build.sh
+COPY . /opt
+RUN /opt/scripts/build.sh
 
 FROM alpine:3.7
 COPY --from=builder /install/caddy /usr/bin/caddy

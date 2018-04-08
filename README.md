@@ -10,6 +10,7 @@ Installed extensions (other than the default ones):
  * opcache
  * pcntl
  * redis
+ * soap
  * tideways (php-fpm flavor only, with `auto_start=0` `auto_prepend_library=0`)
  * zip
 
@@ -46,6 +47,8 @@ redis
 Reflection
 session
 SimpleXML
+soap
+sodium
 SPL
 sqlite3
 standard

@@ -1,3 +1,3 @@
 <?php
 
-$s = new SoapClient();
+is_soap_fault(false);

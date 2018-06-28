@@ -1,4 +1,4 @@
-FROM golang:1.9.3-alpine3.7 as builder
+FROM golang:1.10.3-alpine3.7 as builder
 
 RUN apk add --no-cache git
 
@@ -14,7 +14,7 @@ RUN set -ex; \
   /usr/bin/caddy --plugins
 
 EXPOSE 80 443
-VOLUME /root/.caddy /var/www/html
+VOLUME /root/.caddy /root/cache /var/www/html
 WORKDIR /var/www/html
 
 COPY . /opt

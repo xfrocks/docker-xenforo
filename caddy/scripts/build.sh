@@ -1,6 +1,6 @@
 #!/bin/sh
 
-_version='0.10.10'
+_version='0.11.0'
 
 # caddy
 git clone https://github.com/mholt/caddy -b "v$_version" /go/src/github.com/mholt/caddy \
@@ -15,7 +15,7 @@ alias caddyplug='GOOS=linux GOARCH=amd64 caddyplug'
 git clone https://github.com/caddyserver/builds /go/src/github.com/caddyserver/builds
 
 # plugins
-_plugins='cloudflare'
+_plugins='cache cloudflare'
 for _plugin in $(echo $_plugins | tr "," " "); do \
   go get -v $(caddyplug package $_plugin); \
   printf "package caddyhttp\nimport _ \"$(caddyplug package $_plugin)\"" > \

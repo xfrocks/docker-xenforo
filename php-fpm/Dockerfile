@@ -6,6 +6,5 @@ ARG DOCKER_XENFORO_PHP_PECL_INSTALL
 # https://tideways.com/profiler/downloads
 ENV TIDEWAYS_VERSION 4.1.6
 
-COPY ./build.sh /build.sh
-COPY ./build_fpm.sh /build_fpm.sh
-RUN /build.sh && rm /build*.sh
+COPY . /tmp/.
+RUN /tmp/build.sh

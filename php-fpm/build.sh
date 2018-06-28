@@ -47,7 +47,7 @@ docker-php-source extract
 eval "docker-php-ext-install $DOCKER_XENFORO_PHP_EXT_INSTALL"
 eval "pecl install $DOCKER_XENFORO_PHP_PECL_INSTALL"
 eval "docker-php-ext-enable $DOCKER_XENFORO_PHP_PECL_INSTALL"
-/build_fpm.sh
+/tmp/build_fpm.sh
 docker-php-source delete
 
 # clean up

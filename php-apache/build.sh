@@ -39,7 +39,6 @@ eval "docker-php-ext-install $DOCKER_XENFORO_PHP_EXT_INSTALL"
 eval "pecl install $DOCKER_XENFORO_PHP_PECL_INSTALL"
 eval "docker-php-ext-enable $DOCKER_XENFORO_PHP_PECL_INSTALL"
 /tmp/build_apache.sh
-/tmp/composer.sh
 docker-php-source delete
 
 # clean up

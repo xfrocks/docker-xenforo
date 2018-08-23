@@ -8,6 +8,8 @@ TMP_PACKAGES="$TMP_PACKAGES libfreetype6-dev"        # gd
 RUN_PACKAGES="$RUN_PACKAGES libgd3"                  # gd
 TMP_PACKAGES="$TMP_PACKAGES libgd-dev"               # gd
 TMP_PACKAGES="$TMP_PACKAGES libjpeg62-turbo-dev"     # gd
+RUN_PACKAGES="$RUN_PACKAGES libmagickwand-6.q16"     # imagick
+TMP_PACKAGES="$TMP_PACKAGES libmagickwand-6.q16-dev" # imagick
 TMP_PACKAGES="$TMP_PACKAGES libmemcached-dev"        # memcached
 RUN_PACKAGES="$RUN_PACKAGES libmemcachedutil2"       # memcached
 TMP_PACKAGES="$TMP_PACKAGES libpng-dev"              # gd
@@ -38,8 +40,8 @@ export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS"
 
 docker-php-source extract
 eval "docker-php-ext-install $DOCKER_XENFORO_PHP_EXT_INSTALL"
-eval "pecl install $DOCKER_XENFORO_PHP_PECL_INSTALL"
-eval "docker-php-ext-enable $DOCKER_XENFORO_PHP_PECL_INSTALL"
+eval "pecl install imagick $DOCKER_XENFORO_PHP_PECL_INSTALL"
+eval "docker-php-ext-enable imagick $DOCKER_XENFORO_PHP_PECL_INSTALL"
 /tmp/build_apache.sh
 docker-php-source delete
 

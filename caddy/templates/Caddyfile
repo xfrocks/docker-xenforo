@@ -1,8 +1,18 @@
 *
 
-fastcgi / php-fpm.local:9000 php
-
+errors stdout
+log stdout
+realip {
+  from 10.0.0.0/8
+  from 172.16.0.0/12
+  from 192.168.0.0/16
+}
 tls {
   dns cloudflare
-  max_certs 3
+  max_certs 1
 }
+
+rewrite {
+  to {path} {path}/ /index.php
+}
+fastcgi / php-fpm.local:9000 php

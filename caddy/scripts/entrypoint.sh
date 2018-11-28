@@ -5,7 +5,6 @@ set -e
 _caddyfilePathDefault='/etc/Caddyfile'
 _caddyfilePath=${CADDYFILE_PATH:-"$_caddyfilePathDefault"}
 _phpFastcgiEndpoint="$CADDY_PHP_FASTCGI_ENDPOINT"
-_caddyfileTemplatePath=${CADDYFILE_TEMPLATE_PATH:-'/opt/templates/Caddyfile'}
 
 # if command starts with an option, prepend caddy
 if [ "${1:0:1}" = '-' ]; then
@@ -13,7 +12,7 @@ if [ "${1:0:1}" = '-' ]; then
 fi
 
 if [ "x$_caddyfilePath" = "x$_caddyfilePathDefault" ]; then
-  _caddyfile="$( cat "$_caddyfileTemplatePath" )"
+  _caddyfile="$( cat /opt/templates/Caddyfile )"
 
   if [ ! -z "$_phpFastcgiEndpoint" ]; then
     _caddyfile="$( echo "$_caddyfile" | sed -e "s/php-fpm.local:9000/$_phpFastcgiEndpoint/" )"

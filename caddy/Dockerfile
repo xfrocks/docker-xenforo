@@ -1,11 +1,11 @@
-FROM golang:1.11.0-alpine3.7 as builder
+FROM golang:1.11.2-alpine3.8 as builder
 
 RUN apk add --no-cache git
 
 COPY . /opt
 RUN /opt/scripts/build.sh
 
-FROM alpine:3.7
+FROM alpine:3.8
 COPY --from=builder /install/caddy /usr/bin/caddy
 
 RUN set -ex; \
@@ -20,4 +20,4 @@ WORKDIR /var/www/html
 COPY . /opt
 
 ENTRYPOINT ["/opt/scripts/entrypoint.sh"]
-CMD ["-log", "stdout"]
+CMD ["-agree=true", "-log", "stdout"]

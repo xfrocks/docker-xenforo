@@ -5,13 +5,14 @@ Installed extensions (other than the default ones):
  * apcu
  * exif
  * gd
+ * imagick (php-apache only)
  * memcached
  * mysqli
  * opcache
  * pcntl
  * redis
  * soap
- * tideways (php-fpm flavor only, with `auto_start=0` `auto_prepend_library=0`)
+ * tideways (php-fpm only, with `auto_start=0` `auto_prepend_library=0`)
  * zip
 
 List of all extensions (according to `php -m`):

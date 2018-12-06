@@ -12,6 +12,7 @@ Installed extensions (other than the default ones):
  * pcntl
  * redis
  * soap
+ * sockets
  * tideways (php-fpm only, with `auto_start=0` `auto_prepend_library=0`)
  * zip
 
@@ -49,6 +50,7 @@ Reflection
 session
 SimpleXML
 soap
+sockets
 sodium
 SPL
 sqlite3

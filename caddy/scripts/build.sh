@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# https://github.com/mholt/caddy/releases
 _version='0.11.1'
 
 # caddy

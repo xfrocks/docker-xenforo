@@ -12,3 +12,6 @@ docker-php-ext-enable tideways
   echo 'tideways.auto_start=0'; \
   echo 'tideways.auto_prepend_library=0'; \
 } > /usr/local/etc/php/conf.d/zzz-tideways.ini
+
+# xdebug: installed but disabled on php-fpm
+sed -i'' 's/^/;/' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini

@@ -14,9 +14,10 @@ Installed extensions (other than the default ones):
  * soap
  * sockets
  * tideways (php-fpm only, with `auto_start=0` `auto_prepend_library=0`)
+ * xdebug (installed but disabled on php-fpm)
  * zip
 
-List of all extensions (according to `php -m`):
+List of all extensions on php-fpm (according to `php -m`):
 apcu
 Core
 ctype

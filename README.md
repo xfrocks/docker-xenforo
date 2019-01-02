@@ -5,6 +5,7 @@ Installed extensions (other than the default ones):
  * apcu
  * exif
  * gd
+ * gmp
  * imagick (php-apache only)
  * memcached
  * mysqli
@@ -29,6 +30,7 @@ fileinfo
 filter
 ftp
 gd
+gmp
 hash
 iconv
 igbinary

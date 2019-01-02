@@ -9,7 +9,7 @@ set -e
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TESTS_DIR="$DIR/tests"
 
-EXT_INSTALL="exif gd mysqli opcache pcntl soap sockets zip"
+EXT_INSTALL="exif gd gmp mysqli opcache pcntl soap sockets zip"
 PECL_INSTALL="apcu igbinary memcached redis xdebug"
 
 for d in */ ; do

@@ -106,5 +106,13 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
 ```
 
+### Friendly URLs
+
+The apache image doesn't have mod_rewrite enabled, use FallbackResource in `.htaccess` if you need XenForo's friendly URLs:
+
+```
+FallbackResource /index.php
+```
+
 ## Production
-It's recommended to use the fpm container with nginx for better performance in production.
+It's recommended to use the fpm image with nginx for better performance in production.

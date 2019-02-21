@@ -41,7 +41,11 @@ esac
 export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS"
 
 docker-php-source extract
-eval "docker-php-ext-install $DOCKER_XENFORO_PHP_EXT_INSTALL"
+
+if [$DOCKER_XENFORO_PHP_EXT_INSTALL]
+  then eval "docker-php-ext-install $DOCKER_XENFORO_PHP_EXT_INSTALL"
+fi
+
 eval "pecl install imagick $DOCKER_XENFORO_PHP_PECL_INSTALL"
 eval "docker-php-ext-enable imagick $DOCKER_XENFORO_PHP_PECL_INSTALL"
 /tmp/build_apache.sh

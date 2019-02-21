@@ -1,5 +1,8 @@
 FROM php:7.2.13-apache-stretch
 
+RUN apt update
+RUN apt install locales-all -y
+
 ARG DOCKER_XENFORO_PHP_EXT_INSTALL
 ARG DOCKER_XENFORO_PHP_PECL_INSTALL
 

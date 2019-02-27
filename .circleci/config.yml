@@ -11,12 +11,16 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: ./build.sh caddy/
+      - store_artifacts:
+          path: ./caddy/build.log
   build_nginx:
     <<: *defaults
     steps:
       - checkout
       - setup_remote_docker
       - run: ./build.sh nginx/
+      - store_artifacts:
+          path: ./nginx/build.log
 
 workflows:
   version: 2

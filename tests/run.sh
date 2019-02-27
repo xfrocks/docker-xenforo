@@ -20,7 +20,7 @@ if [ -z "$CONTAINER_ID_MYSQL" ]; then
             -e MYSQL_USER=user \
             -e MYSQL_PASSWORD=password \
             -e MYSQL_DATABASE=db \
-            -d mysql 2>&1 \
+            -d mysql:5.7 2>&1 \
         || docker restart "$NETWORK-mysql" 2>&1 \
     )"
     echo 'Waiting for mysql...'

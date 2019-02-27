@@ -2,11 +2,17 @@ version: 2
 jobs:
   build:
     docker:
-      - image: docker:latest
+      - image: docker:git
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
+          name: Debug 1
+          command: pwd
+      - run:
+          name: Debug 2
+          command: ls -al
       - run:
           name: Build all
           command: ./build.sh

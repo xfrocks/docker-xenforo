@@ -1,18 +1,26 @@
 version: 2
+
+defaults: &defaults
+  docker:
+    - image: docker:git
+  
 jobs:
-  build:
-    docker:
-      - image: docker:git
+  build_caddy:
+    <<: *defaults
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: Debug 1
-          command: pwd
-      - run:
-          name: Debug 2
-          command: ls -al
-      - run:
-          name: Build all
-          command: ./build.sh
+      - setup_remote_docker
+      - run: ./build.sh caddy/
+  build_nginx:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: ./build.sh nginx/
+
+workflows:
+  version: 2
+  build_all:
+    jobs:
+      - build_caddy
+      - build_nginx

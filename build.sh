@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 _filter="$1"
 _test="${TEST:-yes}"
@@ -6,7 +6,7 @@ _push="$PUSH"
 
 set -e
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+DIR=$( pwd )
 TESTS_DIR="$DIR/tests"
 
 EXT_INSTALL="exif gd gmp mysqli opcache pcntl soap sockets zip"

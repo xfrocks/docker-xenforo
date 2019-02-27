@@ -19,6 +19,7 @@ RUN_PACKAGES="$RUN_PACKAGES libssl-dev"
 RUN_PACKAGES="$RUN_PACKAGES libxml2-dev"             # soap
 RUN_PACKAGES="$RUN_PACKAGES libxpm4"                 # gd
 TMP_PACKAGES="$TMP_PACKAGES libxpm-dev"              # gd
+RUN_PACKAGES="$RUN_PACKAGES locales-all"
 RUN_PACKAGES="$RUN_PACKAGES mysql-client"
 TMP_PACKAGES="$TMP_PACKAGES git"
 RUN_PACKAGES="$RUN_PACKAGES unzip"

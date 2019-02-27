@@ -114,5 +114,10 @@ The apache image doesn't have mod_rewrite enabled, use FallbackResource in `.hta
 FallbackResource /index.php
 ```
 
+### Locale
+
+The apache image has `locales-all` installed for easy development but it's not included in the fpm image.
+Click [here](https://github.com/gliderlabs/docker-alpine/issues/144) for installation instructions.
+
 ## Production
 It's recommended to use the fpm image with nginx for better performance in production.

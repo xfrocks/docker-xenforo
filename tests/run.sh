@@ -2,7 +2,7 @@
 
 set -e
 
-DIR=$( cd ./tests && pwd )
+DIR=$( pwd )
 NETWORK="docker-xenforo-test"
 
 {
@@ -60,11 +60,13 @@ CONTAINER_HOSTNAME_REDIS="$( docker inspect --format '{{.Config.Hostname}}' "$CO
 CONTAINER_ID_TARGET="$( docker run \
     --network "$NETWORK" \
     -v "$DIR:/tests/:ro" \
+    -w /tests
     -e IMAGE_TAG_FOR_TESTING="$IMAGE_TAG_FOR_TESTING" \
     -e MYSQL="$CONTAINER_HOSTNAME_MYSQL" \
     -e REDIS="$CONTAINER_HOSTNAME_REDIS" \
     -d "$IMAGE_TAG_FOR_TESTING"
 )"
+docker exec "$CONTAINER_ID_TARGET" ls -al
 
 
 

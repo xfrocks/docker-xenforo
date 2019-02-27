@@ -48,7 +48,7 @@ workflows:
   version: 2
   build_all:
     jobs:
-      # - build_caddy
-      # - build_nginx
+      - build_caddy
+      - build_nginx
       - build_php_apache
-      # - build_php_fpm
+      - build_php_fpm

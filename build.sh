@@ -33,12 +33,12 @@ for d in */ ; do
     TAG="xfrocks/xenforo:${d%?}"
     TAG_WITH_VERSION="$TAG-$VERSION"
 
-    # docker build \
-    #     --build-arg DOCKER_XENFORO_PHP_EXT_INSTALL="$EXT_INSTALL" \
-    #     --build-arg DOCKER_XENFORO_PHP_PECL_INSTALL="$PECL_INSTALL" \
-    #     -t "$TAG" \
-    #     -t "$TAG_WITH_VERSION" \
-    #     . > build.log
+    docker build \
+        --build-arg DOCKER_XENFORO_PHP_EXT_INSTALL="$EXT_INSTALL" \
+        --build-arg DOCKER_XENFORO_PHP_PECL_INSTALL="$PECL_INSTALL" \
+        -t "$TAG" \
+        -t "$TAG_WITH_VERSION" \
+        . > build.log
 
     if [ "$IS_PHP" -gt 0 ]; then
         if [ "x$_test" = 'xyes' ]; then

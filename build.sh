@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 _filter="$1"
 _test="${TEST:-yes}"
@@ -6,7 +6,7 @@ _push="$PUSH"
 
 set -e
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+DIR=$( pwd )
 TESTS_DIR="$DIR/tests"
 
 EXT_INSTALL="exif gd gmp mysqli opcache pcntl soap sockets zip"
@@ -25,9 +25,10 @@ for d in */ ; do
     echo "Building $d..."
 
     IS_PHP=0
-    if [[ $d == php* ]]; then
-        IS_PHP=1
-    fi
+    case $d in
+      php-* ) IS_PHP=1
+    esac
+
     VERSION="$( head -n 1 "VERSION" )"
     TAG="xfrocks/xenforo:${d%?}"
     TAG_WITH_VERSION="$TAG-$VERSION"
@@ -42,7 +43,7 @@ for d in */ ; do
     if [ "$IS_PHP" -gt 0 ]; then
         if [ "x$_test" = 'xyes' ]; then
             echo "Testing..."
-            eval "IMAGE_TAG_FOR_TESTING=$TAG_WITH_VERSION $TESTS_DIR/run.sh > test.log"
+            (export IMAGE_TAG_FOR_TESTING=$TAG_WITH_VERSION && cd $TESTS_DIR && ./run.sh) > test.log
         else
             echo "Skipped testing (TEST == $_test)" >&2
         fi

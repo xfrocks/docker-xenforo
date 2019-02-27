@@ -26,9 +26,7 @@ for d in */ ; do
 
     IS_PHP=0
     case $d in
-      php-* )
-        IS_PHP=1
-        break;;
+      php-* ) IS_PHP=1
     esac
 
     VERSION="$( head -n 1 "VERSION" )"

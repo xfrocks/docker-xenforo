@@ -1,6 +1,9 @@
 # docker pull xfrocks/xenforo
 Docker containers to develop and run XenForo.
 
+[![CircleCI](https://circleci.com/gh/xfrocks/docker-xenforo.svg?style=svg)](https://circleci.com/gh/xfrocks/docker-xenforo)
+[![Docker](https://img.shields.io/docker/pulls/xfrocks/xenforo.svg)](https://hub.docker.com/r/xfrocks/xenforo)
+
 Installed extensions (other than the default ones):
  * apcu
  * exif

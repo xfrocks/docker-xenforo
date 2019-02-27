@@ -57,9 +57,10 @@ CONTAINER_HOSTNAME_REDIS="$( docker inspect --format '{{.Config.Hostname}}' "$CO
 
 
 
+cd "$DIR"
 CONTAINER_ID_TARGET="$( docker run \
     --network "$NETWORK" \
-    -v "$DIR:/tests/:ro" \
+    -v "$DIR:/tests:ro" \
     -w /tests \
     -e IMAGE_TAG_FOR_TESTING="$IMAGE_TAG_FOR_TESTING" \
     -e MYSQL="$CONTAINER_HOSTNAME_MYSQL" \
@@ -70,7 +71,6 @@ docker exec "$CONTAINER_ID_TARGET" ls -al
 
 
 
-cd "$DIR"
 for d in */ ; do
     if [ -f "$DIR/$d/test.php" ]; then
         echo "Testing $d..."

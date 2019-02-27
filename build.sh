@@ -25,9 +25,12 @@ for d in */ ; do
     echo "Building $d..."
 
     IS_PHP=0
-    if [[ $d == php* ]]; then
+    case $d in
+      php-* )
         IS_PHP=1
-    fi
+        break;;
+    esac
+
     VERSION="$( head -n 1 "VERSION" )"
     TAG="xfrocks/xenforo:${d%?}"
     TAG_WITH_VERSION="$TAG-$VERSION"

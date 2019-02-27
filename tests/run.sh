@@ -58,14 +58,18 @@ CONTAINER_HOSTNAME_REDIS="$( docker inspect --format '{{.Config.Hostname}}' "$CO
 
 
 cd "$DIR"
+{ \
+    echo "FROM $IMAGE_TAG_FOR_TESTING"; \
+    echo "COPY . /tests"; \
+} > Dockerfile
+IMAGE_TAG_TMP="$IMAGE_TAG_FOR_TESTING-tmp"
+docker build -t "$IMAGE_TAG_TMP" .
 CONTAINER_ID_TARGET="$( docker run \
     --network "$NETWORK" \
-    -v "$DIR:/tests:ro" \
-    -w /tests \
     -e IMAGE_TAG_FOR_TESTING="$IMAGE_TAG_FOR_TESTING" \
     -e MYSQL="$CONTAINER_HOSTNAME_MYSQL" \
     -e REDIS="$CONTAINER_HOSTNAME_REDIS" \
-    -d "$IMAGE_TAG_FOR_TESTING"
+    -d "$IMAGE_TAG_TMP"
 )"
 docker exec "$CONTAINER_ID_TARGET" ls -al
 

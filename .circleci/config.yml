@@ -13,6 +13,7 @@ jobs:
       - run: ./build.sh caddy/
       - store_artifacts:
           path: ./caddy/build.log
+
   build_nginx:
     <<: *defaults
     steps:
@@ -22,9 +23,32 @@ jobs:
       - store_artifacts:
           path: ./nginx/build.log
 
+  build_php_apache:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: ./build.sh php-apache/
+      - store_artifacts:
+          path: ./php-apache/build.log
+      - store_artifacts:
+          path: ./php-apache/test.log
+  build_php_fpm:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: ./build.sh php-fpm/
+      - store_artifacts:
+          path: ./php-fpm/build.log
+      - store_artifacts:
+          path: ./php-fpm/test.log
+
 workflows:
   version: 2
   build_all:
     jobs:
       - build_caddy
       - build_nginx
+      - build_php_apache
+      - build_php_fpm

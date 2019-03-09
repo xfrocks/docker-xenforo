@@ -17,7 +17,6 @@ Installed extensions (other than the default ones):
  * redis
  * soap
  * sockets
- * tideways (php-fpm only, with `auto_start=0` `auto_prepend_library=0`)
  * xdebug (installed but disabled on php-fpm)
  * zip
 
@@ -61,7 +60,6 @@ sodium
 SPL
 sqlite3
 standard
-tideways
 tokenizer
 xml
 xmlreader

@@ -2,7 +2,7 @@
 
 # https://github.com/mholt/caddy/releases
 # https://github.com/abiosoft/caddy-docker/blob/master/builder/builder.sh
-_version='0.11.4'
+_version='1.0.0'
 
 # caddy
 git clone https://github.com/mholt/caddy -b "v$_version" /go/src/github.com/mholt/caddy \

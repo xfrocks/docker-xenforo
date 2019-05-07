@@ -2,30 +2,131 @@
 
 # https://github.com/mholt/caddy/releases
 # https://github.com/abiosoft/caddy-docker/blob/master/builder/builder.sh
-_version='1.0.0'
+PLUGINS='cache cloudflare cors expires realip'
+TELEMETRY='true'
+VERSION='v1.0.0'
 
-# caddy
-git clone https://github.com/mholt/caddy -b "v$_version" /go/src/github.com/mholt/caddy \
-  && cd /go/src/github.com/mholt/caddy \
-  && git checkout -b "v$_version"
+stage() {
+    STAGE="$1"
+    echo
+    echo starting stage: $STAGE
+}
+
+end_stage() {
+    if [ $? -ne 0 ]; then
+        >&2 echo error at \'$STAGE\'
+        exit 1
+    fi
+    echo finished stage: $STAGE ✓
+    echo
+}
+
+get_package() {
+    GO111MODULE=off GOOS=linux GOARCH=amd64 caddyplug package $1 2> /dev/null
+}
+
+plugins() {
+    mkdir -p /plugins
+    for plugin in $(echo $PLUGINS | tr "," " "); do \
+        import_package=$(get_package $plugin)
+        $go_mod || go get -v "$import_package" ; # not needed for modules
+        $go_mod && package="main" || package="caddyhttp"
+        printf "package $package\nimport _ \"$import_package\"" > \
+            /plugins/$plugin.go ; \
+    done
+}
+
+module() {
+    mkdir -p /caddy
+    cd /caddy # build dir
+
+    # setup module
+    go mod init caddy
+    go get -v github.com/mholt/caddy@$VERSION
+
+    # plugins
+    cp -r /plugins/. .
+
+    # main and telemetry
+    cat > main.go <<EOF
+    package main
+    import "github.com/mholt/caddy/caddy/caddymain"
+    import "os"
+    func main() {
+        switch os.Getenv("ENABLE_TELEMETRY") {
+        case "0", "false":
+            caddymain.EnableTelemetry = false
+        case "1", "true":
+            caddymain.EnableTelemetry = true
+        default:
+            caddymain.EnableTelemetry = $TELEMETRY
+        }
+        caddymain.Run()
+    }
+EOF
+}
+
+legacy() {
+    cd /go/src/github.com/mholt/caddy/caddy # build dir
+
+    # plugins
+    cp -r /plugins/. ../caddyhttp
+
+    # telemetry
+    run_file="/go/src/github.com/mholt/caddy/caddy/caddymain/run.go"
+    if [ "$TELEMETRY" = "false" ]; then
+        cat > "$run_file.disablestats.go" <<EOF
+        package caddymain
+        import "os"
+        func init() {
+            switch os.Getenv("ENABLE_TELEMETRY") {
+            case "0", "false":
+                EnableTelemetry = false
+            case "1", "true":
+                EnableTelemetry = true
+            default:
+                EnableTelemetry = false
+            }
+        }
+EOF
+    fi
+}
+
+# caddy source
+stage "fetching caddy source"
+git clone https://github.com/mholt/caddy -b "$VERSION" /go/src/github.com/mholt/caddy \
+    && cd /go/src/github.com/mholt/caddy
+end_stage
 
 # plugin helper
+stage "installing plugin helper"
 GOOS=linux GOARCH=amd64 go get -v github.com/abiosoft/caddyplug/caddyplug
-alias caddyplug='GOOS=linux GOARCH=amd64 caddyplug'
+end_stage
 
-# plugins
-_plugins='cache cloudflare cors expires realip'
-for _plugin in $_plugins; do \
-  go get -v $(caddyplug package $_plugin); \
-  printf "package caddyhttp\nimport _ \"$(caddyplug package $_plugin)\"" > \
-    /go/src/github.com/mholt/caddy/caddyhttp/$_plugin.go ; \
-  done
+# check for modules support
+go_mod=false
+[ -f /go/src/github.com/mholt/caddy/go.mod ] && export GO111MODULE=on && go_mod=true
 
-# builder dependency
-git clone https://github.com/caddyserver/builds /go/src/github.com/caddyserver/builds
+# generate plugins
+stage "generating plugins"
+plugins
+end_stage
+
+# add plugins and telemetry
+stage "customising plugins and telemetry"
+if $go_mod; then module; else legacy; fi
+end_stage
 
 # build
-cd /go/src/github.com/mholt/caddy/caddy \
-  && GOOS=linux GOARCH=amd64 go run build.go -goos=$GOOS -goarch=$GOARCH -goarm=$GOARM \
-  && mkdir -p /install \
-  && mv caddy /install
+stage "building caddy"
+CGO_ENABLED=0 go build -o caddy
+end_stage
+
+# copy binary
+stage "copying binary"
+mkdir -p /install \
+    && mv caddy /install \
+    && /install/caddy -version
+end_stage
+
+echo "installed caddy version $VERSION at /install/caddy"

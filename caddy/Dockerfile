@@ -1,6 +1,6 @@
 FROM golang:1.12.4-alpine3.9 as builder
 
-RUN apk add --no-cache git
+RUN apk add --no-cache git gcc musl-dev
 
 COPY . /opt
 RUN /opt/scripts/build.sh

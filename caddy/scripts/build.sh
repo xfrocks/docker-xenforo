@@ -1,10 +1,11 @@
 #!/bin/sh
 
 # https://github.com/mholt/caddy/releases
-# https://github.com/abiosoft/caddy-docker/blob/master/builder/builder.sh
-PLUGINS='cache cloudflare cors expires realip'
-TELEMETRY='true'
 VERSION='v1.0.0'
+
+# https://github.com/abiosoft/caddy-docker/blob/master/builder/builder.sh
+PLUGINS='cache cors expires realip'
+TELEMETRY='true'
 
 stage() {
     STAGE="$1"

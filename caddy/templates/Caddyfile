@@ -7,10 +7,6 @@ realip {
   from 172.16.0.0/12
   from 192.168.0.0/16
 }
-tls {
-  dns cloudflare
-  max_certs 1
-}
 
 rewrite {
   to {path} {path}/ /index.php

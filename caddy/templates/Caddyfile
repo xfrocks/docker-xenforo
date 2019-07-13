@@ -7,8 +7,3 @@ realip {
   from 172.16.0.0/12
   from 192.168.0.0/16
 }
-
-rewrite {
-  to {path} {path}/ /index.php
-}
-fastcgi / php-fpm.local:9000 php

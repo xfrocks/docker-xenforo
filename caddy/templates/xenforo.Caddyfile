@@ -1,0 +1,9 @@
+
+rewrite /internal_data {
+    status 403
+}
+
+rewrite {
+  to {path} {path}/ /index.php
+}
+fastcgi / %_phpFastcgiEndpoint% php

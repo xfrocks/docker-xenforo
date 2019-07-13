@@ -1,6 +1,13 @@
 
-rewrite /internal_data {
-    status 403
+status 403 /internal_data
+status 403 /library
+
+header /js {
+  Cache-Control "max-age=31536000"
+}
+
+header /styles {
+  Cache-Control "max-age=31536000"
 }
 
 rewrite {

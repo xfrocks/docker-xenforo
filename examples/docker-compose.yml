@@ -36,9 +36,8 @@ services:
     image: xfrocks/xenforo:caddy
     environment:
       - CADDY_PHP_FASTCGI_ENDPOINT=php-fpm:9000
-      - CLOUDFLARE_API_KEY
-      - CLOUDFLARE_EMAIL
       - VIRTUAL_HOST=caddy.local.xfrocks.com
+      - VIRTUAL_PORT=2015
     links:
       - php-fpm
       - proxy
@@ -47,6 +46,7 @@ services:
     volumes_from:
       - src
     ports:
+      - "2015"
       - "443:443"
 
   proxy:

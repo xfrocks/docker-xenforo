@@ -15,7 +15,8 @@ if [ "x$_caddyfilePath" = "x$_caddyfilePathDefault" ]; then
   _caddyfile="$( cat /opt/templates/Caddyfile )"
 
   if [ ! -z "$_phpFastcgiEndpoint" ]; then
-    _caddyfile="$( echo "$_caddyfile" | sed -e "s/php-fpm.local:9000/$_phpFastcgiEndpoint/" )"
+    _xenforo="$( cat /opt/templates/xenforo.Caddyfile | sed -e "s/%_phpFastcgiEndpoint%/$_phpFastcgiEndpoint/" )"
+    _caddyfile="$_caddyfile$_xenforo"
   fi
 
   echo "$_caddyfile" | tee "$_caddyfilePath" >&2

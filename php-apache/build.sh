@@ -22,7 +22,7 @@ TMP_PACKAGES="$TMP_PACKAGES libxpm-dev"              # gd
 RUN_PACKAGES="$RUN_PACKAGES libzip4"                 # zip
 TMP_PACKAGES="$TMP_PACKAGES libzip-dev"              # zip
 RUN_PACKAGES="$RUN_PACKAGES locales-all"
-RUN_PACKAGES="$RUN_PACKAGES mysql-client"
+RUN_PACKAGES="$RUN_PACKAGES default-mysql-client"
 TMP_PACKAGES="$TMP_PACKAGES git"
 RUN_PACKAGES="$RUN_PACKAGES unzip"
 eval "apt-get update && apt-get install --no-install-recommends -y $TMP_PACKAGES $RUN_PACKAGES"
@@ -32,7 +32,7 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
     echo 'Preparing module: gd...'
     docker-php-ext-configure gd \
         --with-gd=/usr/include \
-        --with-freetype-dir=/usr/include/ \
+        --with-freetype \
         --with-jpeg-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
         --with-xpm-dir=/usr/include

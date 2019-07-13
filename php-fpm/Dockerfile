@@ -1,4 +1,5 @@
-FROM php:7.3.5-fpm-alpine3.9
+# https://github.com/docker-library/docs/blob/master/php/README.md#supported-tags-and-respective-dockerfile-links
+FROM php:7.3.7-fpm-alpine3.10
 
 ARG DOCKER_XENFORO_PHP_EXT_INSTALL
 ARG DOCKER_XENFORO_PHP_PECL_INSTALL

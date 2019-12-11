@@ -34,7 +34,7 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
     echo 'Preparing module: gd...'
     docker-php-ext-configure gd \
         --with-gd=/usr/include \
-        --with-freetype \
+        --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
         --with-webp-dir=/usr/include/ \

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# https://github.com/mholt/caddy/releases
-VERSION='1.0.1'
+# https://github.com/caddyserver/caddy/releases
+VERSION='1.0.4'
 
 # https://github.com/abiosoft/caddy-docker/blob/master/builder/builder.sh
 PLUGINS='cache cors expires realip'

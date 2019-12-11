@@ -16,6 +16,8 @@ TMP_PACKAGES="$TMP_PACKAGES libmemcached-dev"        # memcached
 RUN_PACKAGES="$RUN_PACKAGES libmemcachedutil2"       # memcached
 TMP_PACKAGES="$TMP_PACKAGES libpng-dev"              # gd
 RUN_PACKAGES="$RUN_PACKAGES libssl-dev"
+RUN_PACKAGES="$RUN_PACKAGES libwebp6"                # gd
+TMP_PACKAGES="$TMP_PACKAGES libwebp-dev"             # gd
 RUN_PACKAGES="$RUN_PACKAGES libxml2-dev"             # soap
 RUN_PACKAGES="$RUN_PACKAGES libxpm4"                 # gd
 TMP_PACKAGES="$TMP_PACKAGES libxpm-dev"              # gd
@@ -32,9 +34,10 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
     echo 'Preparing module: gd...'
     docker-php-ext-configure gd \
         --with-gd=/usr/include \
-        --with-freetype \
+        --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
+        --with-webp-dir=/usr/include/ \
         --with-xpm-dir=/usr/include
     ;;
 esac
@@ -55,8 +58,3 @@ pecl clear-cache
 rm -rf /tmp/* /var/lib/apt/lists/*
 eval apt-mark manual "$RUN_PACKAGES"
 eval "apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $TMP_PACKAGES"
-
-# No longer enable mod_rewrite for apache images
-# It's much more simple to just use `FallbackResource /index.php` for XenForo
-# and maybe `FallbackResource /api/index.php` for [bd] API
-# a2enmod rewrite

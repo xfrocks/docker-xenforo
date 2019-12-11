@@ -21,7 +21,7 @@ if [ -z "$CONTAINER_ID_MYSQL" ]; then
             -e MYSQL_PASSWORD=password \
             -e MYSQL_DATABASE=db \
             -d mysql:5.7 2>&1 \
-        || docker restart "$NETWORK-mysql" 2>&1 \
+        || docker restart "$NETWORK-mysql" \
     )"
     echo 'Waiting for mysql...'
     sleep 5
@@ -43,7 +43,7 @@ if [ -z "$CONTAINER_ID_REDIS" ]; then
         docker run --network "$NETWORK" \
             --name "$NETWORK-redis" \
             -d redis 2>&1 \
-        || docker restart "$NETWORK-redis" 2>&1
+        || docker restart "$NETWORK-redis"
     )"
 
     CONTAINER_ID_REDIS="$( docker ps -qf name="$NETWORK-redis" )"
@@ -78,7 +78,7 @@ docker exec "$CONTAINER_ID_TARGET" ls -al
 for d in */ ; do
     if [ -f "$DIR/$d/test.php" ]; then
         echo "Testing $d..."
-        docker exec "$CONTAINER_ID_TARGET" php "/tests/${d}test.php"
+        docker exec "$CONTAINER_ID_TARGET" php -c /tests/php.ini "/tests/${d}test.php"
     fi
 done
 
@@ -87,6 +87,7 @@ done
 echo 'Cleaning up...'
 {
     docker stop "$CONTAINER_ID_MYSQL" "$CONTAINER_ID_REDIS" "$CONTAINER_ID_TARGET"
+    docker rm -f "$CONTAINER_ID_MYSQL" "$CONTAINER_ID_REDIS" "$CONTAINER_ID_TARGET"
     docker network rm "$NETWORK" || true
 } &> /dev/null
 echo 'All done!'

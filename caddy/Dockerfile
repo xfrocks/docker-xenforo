@@ -1,11 +1,12 @@
-FROM golang:1.12.4-alpine3.9 as builder
+# https://hub.docker.com/_/golang/
+FROM golang:1.13.5-alpine3.10 as builder
 
 RUN apk add --no-cache git gcc musl-dev
 
 COPY . /opt
 RUN /opt/scripts/build.sh
 
-FROM alpine:3.9
+FROM alpine:3.10
 COPY --from=builder /install/caddy /usr/bin/caddy
 
 RUN set -ex; \

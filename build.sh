@@ -42,8 +42,13 @@ for d in */ ; do
 
     if [ "$IS_PHP" -gt 0 ]; then
         if [ "x$_test" = 'xyes' ]; then
-            echo "Testing..."
-            (export IMAGE_TAG_FOR_TESTING=$TAG_WITH_VERSION && cd $TESTS_DIR && ./run.sh) > test.log
+            printf "Testing... "
+            if (export IMAGE_TAG_FOR_TESTING=$TAG_WITH_VERSION && cd $TESTS_DIR && ./run.sh) >test.log; then
+                echo "OK"
+            else
+                echo "failed"
+                exit 1
+            fi
         else
             echo "Skipped testing (TEST == $_test)" >&2
         fi

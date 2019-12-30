@@ -1,0 +1,3 @@
+<?php
+
+$xsl = new XSLTProcessor();

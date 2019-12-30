@@ -32,7 +32,7 @@ for d in */ ; do
     VERSION="$( head -n 1 "VERSION" )"
     TAG="xfrocks/xenforo:${d%?}"
     if [ "x$CIRCLE_BRANCH" != 'xmaster' ]; then
-        TAG="$TAG-$CIRCLE_SHA1"
+        TAG="$TAG-$CIRCLE_BRANCH"
     fi
     TAG_WITH_VERSION="$TAG-$VERSION"
 

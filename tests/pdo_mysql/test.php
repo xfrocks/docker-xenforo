@@ -6,4 +6,4 @@ if (empty($host)) {
 	die(1);
 }
 
-$mysqli = new mysqli($host, 'user', 'password', 'db');
+$dbh = new PDO("mysql:host=$host;dbname=db", 'user', 'password');

@@ -9,7 +9,7 @@ set -e
 DIR=$( pwd )
 TESTS_DIR="$DIR/tests"
 
-EXT_INSTALL="bcmath exif gd gmp mysqli opcache pcntl soap sockets zip"
+EXT_INSTALL="bcmath exif gd gmp intl mysqli opcache pcntl soap sockets zip"
 PECL_INSTALL="apcu igbinary memcached redis xdebug"
 
 for d in */ ; do

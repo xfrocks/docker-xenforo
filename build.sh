@@ -31,8 +31,8 @@ for d in */ ; do
 
     VERSION="$( head -n 1 "VERSION" )"
     TAG="xfrocks/xenforo:${d%?}"
-    if [ "x$CIRCLE_BRANCH" != 'xmaster' ]; then
-        TAG="$TAG-$CIRCLE_BRANCH"
+    if [ "x$CIRCLE_BRANCH" != 'x' -a "x$CIRCLE_BRANCH" != 'xmaster' ]; then
+        TAG="$TAG-`echo $CIRCLE_BRANCH | sed 's#[^a-z0-9]#-#g'`"
     fi
     TAG_WITH_VERSION="$TAG-$VERSION"
 

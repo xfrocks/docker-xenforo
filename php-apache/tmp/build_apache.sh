@@ -2,6 +2,9 @@
 
 set -e
 
+# ffmpeg
+apt-get install -y ffmpeg
+
 # phpcs
 pear install PHP_CodeSniffer
 curl -Lo /tmp/PHPCompatibility.tar.gz "https://github.com/wimg/PHPCompatibility/archive/${PHP_COMPATIBILITY_VERSION}.tar.gz"

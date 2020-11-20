@@ -34,12 +34,11 @@ case "$DOCKER_XENFORO_PHP_EXT_INSTALL" in
   *gd*)
     echo 'Preparing module: gd...'
     docker-php-ext-configure gd \
-        --with-gd=/usr/include \
-        --with-freetype-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ \
-        --with-png-dir=/usr/include/ \
-        --with-webp-dir=/usr/include/ \
-        --with-xpm-dir=/usr/include
+        --enable-gd \
+        --with-freetype \
+        --with-jpeg \
+        --with-webp \
+        --with-xpm
     ;;
 esac
 

@@ -3,22 +3,16 @@ version: 2
 defaults: &defaults
   docker:
     - image: docker:git
-  
-jobs:
-  build_caddy:
-    <<: *defaults
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run: ./build.sh caddy/
-      - store_artifacts:
-          path: ./caddy/build.log
+  environment:
+    PUSH: 'yes'
 
+jobs:
   build_nginx:
     <<: *defaults
     steps:
       - checkout
       - setup_remote_docker
+      - run: docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_TOKEN
       - run: ./build.sh nginx/
       - store_artifacts:
           path: ./nginx/build.log
@@ -28,6 +22,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - run: docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_TOKEN
       - run: ./build.sh php-apache/
       - store_artifacts:
           path: ./php-apache/build.log
@@ -38,6 +33,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - run: docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_TOKEN
       - run: ./build.sh php-fpm/
       - store_artifacts:
           path: ./php-fpm/build.log
@@ -48,7 +44,6 @@ workflows:
   version: 2
   build_all:
     jobs:
-      - build_caddy
       - build_nginx
       - build_php_apache
       - build_php_fpm

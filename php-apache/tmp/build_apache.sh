@@ -8,6 +8,9 @@ curl -Lo /tmp/PHPCompatibility.tar.gz "https://github.com/wimg/PHPCompatibility/
 tar -xzf /tmp/PHPCompatibility.tar.gz -C /usr/local/share/
 phpcs --config-set installed_paths "/usr/local/share/PHPCompatibility-${PHP_COMPATIBILITY_VERSION}"
 
+# remote ip (`X-Forwarded-For` header etc.)
+a2enmod remoteip
+
 # tls
 openssl req \
   -days 365 \
@@ -15,7 +18,7 @@ openssl req \
   -newkey rsa:4096 \
   -nodes \
   -out /etc/ssl/certs/ssl-cert-snakeoil.pem \
-  -subj "/C=AU/ST=Some-State/O=Internet Widgits Pty Ltd/CN=php-apache.docker" \
+  -subj "/C=VN/ST=Hanoi/O=xfrocks/CN=php-apache" \
   -x509
 a2enmod ssl
 a2ensite default-ssl

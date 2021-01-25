@@ -9,7 +9,7 @@ Installed extensions (other than the default ones):
  * exif
  * gd
  * gmp
- * imagick (php-apache only)
+ * imagick
  * memcached
  * mysqli
  * opcache

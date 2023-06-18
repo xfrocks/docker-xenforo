@@ -9,6 +9,7 @@ Installed extensions (other than the default ones):
  * exif
  * gd
  * gmp
+ * imagick
  * memcached
  * mysqli
  * opcache

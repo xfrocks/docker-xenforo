@@ -1,5 +1,5 @@
 # https://hub.docker.com/_/php/
-FROM php:8.0.6-apache-buster
+FROM php:8.2.7-apache-bookworm
 
 ARG DOCKER_XENFORO_PHP_EXT_INSTALL
 ARG DOCKER_XENFORO_PHP_PECL_INSTALL

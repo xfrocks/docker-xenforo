@@ -70,18 +70,17 @@ zlib
 Zend OPcache
 
 ## Development
-Sample `docker-compose.yml`:
 
-```
-version: '2'
+Sample `docker-compose.yml` using Apache:
+
+```yaml
+version: "2"
 
 services:
   php:
     image: xfrocks/xenforo:php-apache
-    environment:
-      - VIRTUAL_HOST=dev.local.xfrocks.com
-    expose:
-      - "80"
+    ports:
+      - "8080:80"
     links:
       - mysql
     volumes:
@@ -90,21 +89,14 @@ services:
   mysql:
     image: mysql
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-      MYSQL_DATABASE: 'database'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-    expose:
-      - "3306"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
     volumes:
       - ./internal_data/mysql:/var/lib/mysql
-
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
 ```
 
 ### Friendly URLs

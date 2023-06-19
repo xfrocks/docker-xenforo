@@ -29,6 +29,7 @@ RUN_PACKAGES="$RUN_PACKAGES libxpm"             # gd
 TMP_PACKAGES="$TMP_PACKAGES libxpm-dev"         # gd
 RUN_PACKAGES="$RUN_PACKAGES libzip"             # zip
 TMP_PACKAGES="$TMP_PACKAGES libzip-dev"         # zip
+TMP_PACKAGES="$TMP_PACKAGES linux-headers"
 TMP_PACKAGES="$TMP_PACKAGES make"
 eval "apk add --update --no-cache $TMP_PACKAGES $RUN_PACKAGES"
 
